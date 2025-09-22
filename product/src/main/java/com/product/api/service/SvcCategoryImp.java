@@ -7,9 +7,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.product.api.commons.dto.ApiResponse;
+import com.product.api.dto.DtoCategoryIn;
 import com.product.api.entity.Category;
 import com.product.api.repository.RepoCategory;
 import com.product.exception.ApiException;
+import com.product.exception.DBAccessException;
 
 
 @Service
@@ -18,6 +22,69 @@ public class SvcCategoryImp implements SvcCategory {
 	RepoCategory repo;
 	
 	@Override
+	public List<Category> findAll() {
+		try {
+			return repo.findAll();
+		}catch (DataAccessException e) {
+	        		throw new DBAccessException(e);
+		}
+	}
+
+	/*revisar implementacion*/
+	/* cambiar region por categorys en retroalimentaciones del catch*/
+	/*checar con cambios del profe*/
+	@Override
+	public List<Category> findActive() {
+		try {
+			return repo.findActive();
+		}catch (DataAccessException e) {
+	        		throw new DBAccessException(e);
+		}
+	}
+
+	@Override
+	public ApiResponse create(DtoCategoryIn in) {
+		try {
+			repo.create(in.getCategory(), in.getTag());
+			return new ApiResponse("La región ha sido registrada");
+		}catch (DataAccessException e) {
+			if (e.getLocalizedMessage().contains("ux_region"))
+				throw new ApiException(HttpStatus.CONFLICT, "El nombre de la región ya está registrado");
+			if (e.getLocalizedMessage().contains("ux_tag"))
+				throw new ApiException(HttpStatus.CONFLICT, "El tag de la región ya está registrado");
+	        throw new DBAccessException(e);
+		}
+	}
+
+	@Override
+	public ApiResponse update(DtoCategoryIn in, Integer id) {
+		try {
+			repo.update(id, in.getCategory(), in.getTag());
+			return new ApiResponse("La región ha sido actualizada");
+		} catch (DataAccessException e) {
+			if (e.getLocalizedMessage().contains("ux_region"))
+				throw new ApiException(HttpStatus.CONFLICT, "El nombre de la región ya está registrado");
+			if (e.getLocalizedMessage().contains("ux_tag"))
+				throw new ApiException(HttpStatus.CONFLICT, "El tag de la región ya está registrado");
+			if(repo.findById(id).isEmpty())
+				throw new ApiException(HttpStatus.NOT_FOUND, "El id de la región no existe");
+	        throw new DBAccessException(e);
+		}
+	}
+
+	@Override
+	public ApiResponse enable(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ApiResponse disable(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*@Override
 	public ResponseEntity<List<Category>> getCategories(){
 		try {
 			return new ResponseEntity<>(repo.getCategories(), HttpStatus.OK);
@@ -26,5 +93,5 @@ public class SvcCategoryImp implements SvcCategory {
 			throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
 		}
 		
-	}
+	}*/
 }
