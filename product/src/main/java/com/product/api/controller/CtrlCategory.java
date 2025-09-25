@@ -1,19 +1,23 @@
 package com.product.api.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.product.api.commons.dto.ApiResponse;
 import com.product.api.dto.DtoCategoryIn;
 import com.product.api.entity.Category;
-import com.product.api.service.SvcCategory; 
+import com.product.api.service.SvcCategory;
+
+import jakarta.validation.Valid; 
 
 @RestController
 @RequestMapping("/category")
@@ -22,35 +26,36 @@ public class CtrlCategory {
 	SvcCategory svc;
 	
 	@GetMapping()
-	public List<Category> findAll(){
-		return svc.findAll();
+	public ResponseEntity<List<Category>> findAll(){
+		return ResponseEntity.ok(svc.findAll());
 	}
 	
 	
 	@GetMapping("/active")
-	public List<Category> findActive(){
-		return svc.findActive();
+	public ResponseEntity<List<Category>> findActive(){
+		return ResponseEntity.ok(svc.findActive());
 	}
 	
 	@PostMapping()
-	public List<Category> create(DtoCategoryIn in){
-		//throw new ApiException(HttpStatus.BAD_REQUEST,...
-		return svc.create(in);
+	public ResponseEntity<ApiResponse> create( @Valid @RequestBody DtoCategoryIn in){
+		//throw new ApiException(HttpStatus.BAD_REQUEST,...   
+		return ResponseEntity.ok(svc.create(in));
 	}
 	
 	@PutMapping("/{id}")
-	public List<Category> update(DtoCategoryIn in, int id){
-		return svc.update(in, id);
+	public ResponseEntity<ApiResponse> update(@Valid @RequestBody DtoCategoryIn in,
+            @PathVariable("id") Integer id){
+		return ResponseEntity.ok(svc.update(in, id));
 	}
 	
 	@PatchMapping("/{id}/enable")
-	public List<Category> enable(int id){
-		return svc.enable(id);
+	public ResponseEntity<ApiResponse> enable(@PathVariable Integer id){
+		return ResponseEntity.ok(svc.enable(id));
 	}
 	
 	@PatchMapping("/{id}/disable")
-	public List<Category> disable(int id){
-		return svc.disable(id);
+	public ResponseEntity<ApiResponse> disable(@PathVariable Integer id){
+		return ResponseEntity.ok(svc.disable(id));
 	}
 	
 	
