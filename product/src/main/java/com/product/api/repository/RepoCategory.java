@@ -36,18 +36,4 @@ public interface RepoCategory extends JpaRepository<Category, Integer>{
 	@Query(value ="UPDATE category SET status = :status WHERE category_id = :category_id", nativeQuery = true)
 	void updateStatus(@Param("category_id") Integer category_id, @Param("status") Integer status);
 
-	
-	/*Nuevo: verificacion de duplicaciones*/
-	@Query(value = "SELECT COUNT(*) FROM category WHERE LOWER(category) = LOWER(:category)", nativeQuery = true)
-	int countByCategoryIgnoreCase(@Param("category") String category);
-
-	@Query(value = "SELECT COUNT(*) FROM category WHERE LOWER(tag) = LOWER(:tag)", nativeQuery = true)
-	int countByTagIgnoreCase(@Param("tag") String tag);
-
-	@Query(value = "SELECT COUNT(*) FROM category WHERE category_id <> :id AND LOWER(category) = LOWER(:category)", nativeQuery = true)
-	int countByCategoryIgnoreCaseAndIdNot(@Param("id") Integer id, @Param("category") String category);
-
-	@Query(value = "SELECT COUNT(*) FROM category WHERE category_id <> :id AND LOWER(tag) = LOWER(:tag)", nativeQuery = true)
-	int countByTagIgnoreCaseAndIdNot(@Param("id") Integer id, @Param("tag") String tag);
-
 }

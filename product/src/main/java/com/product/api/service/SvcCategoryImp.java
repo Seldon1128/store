@@ -46,16 +46,6 @@ public class SvcCategoryImp implements SvcCategory {
 			    throw new ApiException(HttpStatus.BAD_REQUEST, "category y tag son obligatorios");
 			}
 			
-			// >>> Validación de duplicados 
-			/* 
-			int sameName = repo.countByCategoryIgnoreCase(in.getCategory());
-	        int sameTag  = repo.countByTagIgnoreCase(in.getTag());
-	        if (sameName > 0)
-	            throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoría ya está registrado");
-	        if (sameTag > 0)
-	            throw new ApiException(HttpStatus.CONFLICT, "El tag de la categoría ya está registrado");
-			*/
-			
 			repo.create(in.getCategory(), in.getTag());
 			return new ApiResponse("La categoría ha sido registrada");
 		}catch (DataAccessException e) {
@@ -78,24 +68,11 @@ public class SvcCategoryImp implements SvcCategory {
 			repo.update(id, in.getCategory(), in.getTag());
 			return new ApiResponse("La categoría ha sido actualizada");
 			
-
-			// validar duplicados excluyendo el propio id
-			/*
-			 * int sameNameOther = repo.countByCategoryIgnoreCaseAndIdNot(id, in.getCategory());
-			int sameTagOther  = repo.countByTagIgnoreCaseAndIdNot(id, in.getTag());
-			if (sameNameOther > 0)
-				throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoría ya está registrado");
-			if (sameTagOther > 0)
-				throw new ApiException(HttpStatus.CONFLICT, "El tag de la categoría ya está registrado");
-			 * */
-			 
 		} catch (DataAccessException e) {
 			if (e.getLocalizedMessage().contains("ux_category_category"))
 				throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoría ya está registrado");
 			if (e.getLocalizedMessage().contains("ux_category_tag"))
 				throw new ApiException(HttpStatus.CONFLICT, "El tag de la categoría ya está registrado");
-			//if(repo.findById(id).isEmpty())
-				//throw new ApiException(HttpStatus.NOT_FOUND, "El id de la categoría no existe");
 	        throw new DBAccessException(e);
 		}
 	}
