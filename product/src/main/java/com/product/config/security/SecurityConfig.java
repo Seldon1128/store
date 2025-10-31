@@ -32,6 +32,18 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.PUT, "/category/{id}").hasAuthority("ADMIN")
 				.requestMatchers(HttpMethod.PATCH, "/category/{id}/enable").hasAuthority("ADMIN")
 				.requestMatchers(HttpMethod.PATCH, "/category/{id}/disable").hasAuthority("ADMIN")
+				
+				// PRODUCT
+			     .requestMatchers(HttpMethod.GET,  "/product").authenticated()                   // lista
+			     .requestMatchers(HttpMethod.GET,  "/product/{id}").authenticated()                 // detalle por id
+			     .requestMatchers(HttpMethod.POST, "/product").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.PUT,  "/product/{id}").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.PATCH,"/product/{id}/enable").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.PATCH,"/product/{id}/disable").hasAuthority("ADMIN")
+			     
+			     .requestMatchers(HttpMethod.GET,    "/product/{id}/image").authenticated()
+			     .requestMatchers(HttpMethod.POST,   "/product/{id}/image").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.DELETE, "/product/{id}/image/{product_image_id}").hasAuthority("ADMIN")
 				)
 		.cors(cors -> cors.configurationSource(corsConfig))
 		.httpBasic(Customizer.withDefaults())
