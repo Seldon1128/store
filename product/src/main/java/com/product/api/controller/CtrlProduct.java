@@ -20,41 +20,50 @@ import com.product.api.service.SvcProduct;
 import com.product.common.dto.ApiResponse;
 import com.product.exception.ApiException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/product")
+@Tag(name = "Category", description = "Catálogo de categorias")
 public class CtrlProduct {
 
 	@Autowired
 	SvcProduct svc;
 
 	@GetMapping
+	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
 	public ResponseEntity<List<DtoProductListOut>> getProducts() {
 		return svc.getProducts();
 	}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
 	public ResponseEntity<DtoProductOut> getProduct(@PathVariable Integer id) {
 		return svc.getProduct(id);
 	}
 
 	@PostMapping
+	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
 	public ResponseEntity<ApiResponse> createProduct(@Valid @RequestBody DtoProductIn in) {
 		return svc.createProduct(in);
 	}
 
 	@PutMapping("/{id}")
+	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
 	public ResponseEntity<ApiResponse> updateProduct(@PathVariable Integer id, @Valid @RequestBody DtoProductIn in) {
 		return svc.updateProduct(id, in);
 	}
 
 	@PatchMapping("/{id}/enable")
+	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
 	public ResponseEntity<ApiResponse> enableProduct(@PathVariable Integer id) {
 		return svc.enableProduct(id);
 	}
 
 	@PatchMapping("/{id}/disable")
+	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
 	public ResponseEntity<ApiResponse> disableProduct(@PathVariable Integer id) {
 		return svc.disableProduct(id);
 	}

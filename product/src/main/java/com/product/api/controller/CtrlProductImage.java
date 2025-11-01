@@ -18,10 +18,13 @@ import com.product.api.entity.ProductImage;
 import com.product.api.service.SvcProductImage;
 import com.product.exception.ApiException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/product/{id}/image")
+@Tag(name = "Category", description = "Catálogo de categorias")
 public class CtrlProductImage {
 	
 	@Autowired
@@ -29,11 +32,13 @@ public class CtrlProductImage {
 	
 	
 	@GetMapping
+	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
 	public ResponseEntity<ProductImage[]> getProductImages(@PathVariable Integer id){
 		return svc.getProductImages(id);
 	}
 	
     @PostMapping
+    @Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
    public ResponseEntity<ApiResponse> createProductImage(@PathVariable Integer id, @Valid @RequestBody DtoProductImageIn in,
 		   BindingResult bindingResult){
 		if(bindingResult.hasErrors())
@@ -44,6 +49,7 @@ public class CtrlProductImage {
    }
 	
 	@DeleteMapping("/{product_image_id}")
+	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
 	public ResponseEntity<ApiResponse> deleteProductImage(@PathVariable Integer id,@PathVariable Integer product_image_id){
 		return svc.deleteProductImage(product_image_id);
 	}
