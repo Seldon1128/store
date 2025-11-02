@@ -26,44 +26,44 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/product")
-@Tag(name = "Category", description = "Catálogo de categorias")
+@Tag(name = "Product", description = "Catálogo de productos")
 public class CtrlProduct {
 
 	@Autowired
 	SvcProduct svc;
 
 	@GetMapping
-	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
+	@Operation(summary = "Consultar productos", description = "Consulta todos los productos")
 	public ResponseEntity<List<DtoProductListOut>> getProducts() {
 		return svc.getProducts();
 	}
 
 	@GetMapping("/{id}")
-	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
+	@Operation(summary = "Consulta un product", description = "Consulta un producto")
 	public ResponseEntity<DtoProductOut> getProduct(@PathVariable Integer id) {
 		return svc.getProduct(id);
 	}
 
 	@PostMapping
-	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
+	@Operation(summary = "Registrar categorias", description = "Registra un nuevo producto")
 	public ResponseEntity<ApiResponse> createProduct(@Valid @RequestBody DtoProductIn in) {
 		return svc.createProduct(in);
 	}
 
 	@PutMapping("/{id}")
-	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
+	@Operation(summary = "Actualizar productos", description = "Actualiza un producto")
 	public ResponseEntity<ApiResponse> updateProduct(@PathVariable Integer id, @Valid @RequestBody DtoProductIn in) {
 		return svc.updateProduct(id, in);
 	}
 
 	@PatchMapping("/{id}/enable")
-	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
+	@Operation(summary = "Activar producto", description = "Producto disponible")
 	public ResponseEntity<ApiResponse> enableProduct(@PathVariable Integer id) {
 		return svc.enableProduct(id);
 	}
 
 	@PatchMapping("/{id}/disable")
-	@Operation(summary = "Consultar categorias", description = "Consulta todas las categorias registradas")
+	@Operation(summary = "Desactivar producto", description = "Producto no disponible")
 	public ResponseEntity<ApiResponse> disableProduct(@PathVariable Integer id) {
 		return svc.disableProduct(id);
 	}
