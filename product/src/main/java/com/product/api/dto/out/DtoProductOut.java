@@ -1,27 +1,39 @@
 package com.product.api.dto.out;
 
-public class DtoProductOut {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
-	
+@Entity
+@Table(name = "product")
+public class DtoProductOut {
+	@Id
 	 private Integer product_id;
 	 private String gtin;
 	 private String product;
 	 private String description;
 	 private Float price;
 	 private Integer stock;
-	 private Integer category_id;
-	 private Integer status;
+	 private String category;
 	 
-	 public DtoProductOut(Integer product_id, String gtin, String product, String description,
-		             	Float price, Integer stock, Integer category_id, Integer status) {
-		this.product_id = product_id;
-		this.gtin = gtin;
-		this.product = product;
-		this.description = description;
-		this.price = price;
-		this.stock = stock;
-		this.category_id = category_id;
-		this.status = status;
+	 @Transient
+	 private String[] images;
+	 
+	 public String getCategory() {
+			return category;
+		}
+
+	public void setCategory(String category) {
+			 this.category = category;
+		}
+	 
+	 public String[] getImages() {
+		return images;
+	}
+
+	 public void setImages(String[] images) {
+		 this.images = images;
 	 }
 	 
 	 public Integer getProduct_id() {
@@ -60,16 +72,6 @@ public class DtoProductOut {
 		public void setStock(Integer stock) {
 			this.stock = stock;
 		}
-		public Integer getCategory_id() {
-			return category_id;
-		}
-		public void setCategory_id(Integer category_id) {
-			this.category_id = category_id;
-		}
-		public Integer getStatus() {
-			return status;
-		}
-		public void setStatus(Integer status) {
-			this.status = status;
-		}
+
+
 }
