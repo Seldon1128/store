@@ -32,7 +32,9 @@ public class SvcProductImp implements SvcProduct{
 	
 	@Autowired
 	RepoProduct repo;
-	RepoProductImage repoImage;
+	
+	@Autowired
+	RepoProductImage repoProductImage;
 	
 	@Autowired
 	MapperProduct mapper;
@@ -70,7 +72,11 @@ public class SvcProductImp implements SvcProduct{
 	
 	private String[] readProductImagesFiles(Integer product_id) {
 	    try {
-	        ProductImage[] productImages = repoImage.findByProductId(product_id);
+	        ProductImage[] productImages = repoProductImage.findByProductId(product_id);
+	        if (productImages == null || productImages.length == 0) {
+	            return new String[0]; // No hay imágenes
+	        }
+	        
 	        String[] imagesUrl = new String[productImages.length];
 
 	        for (int i = 0; i < productImages.length; i++) {
