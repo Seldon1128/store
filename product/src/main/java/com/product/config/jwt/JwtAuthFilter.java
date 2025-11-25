@@ -42,9 +42,11 @@ public class JwtAuthFilter extends OncePerRequestFilter{
         
         List<String> permisosList = permisos.stream().map(i -> i.get("authority")).toList();
         
+        Integer userId = jwtUtil.extractClaims(token).get("id", Integer.class);
+        
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = User.withUsername(username)
+            UserDetails userDetails = User.withUsername(String.valueOf(userId))
             		.password("")
             		.authorities(permisosList.toArray(new String[0]))
                     .build();
