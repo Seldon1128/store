@@ -13,7 +13,7 @@ import com.product.api.entity.Category;
 
 public interface SvcShoppingCart {
 	public ResponseEntity<ApiResponse> create(DtoShoppingCartIn in);
-	public ResponseEntity<DtoShoppingCartOut> getCart();
+	public ResponseEntity<List<DtoShoppingCartOut>> getCart();
 	public ResponseEntity<ApiResponse> deleteItemCart(Integer id);
-	public ResponseEntity<ApiResponse> deleteAllItemsCart(Integer id);
+	public ResponseEntity<ApiResponse> deleteAllItemsCart();
 }

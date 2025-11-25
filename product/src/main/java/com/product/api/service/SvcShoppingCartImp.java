@@ -1,5 +1,7 @@
 package com.product.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,21 +82,79 @@ public class SvcShoppingCartImp implements SvcShoppingCart{
 	}
 
 	@Override
-	public ResponseEntity<DtoShoppingCartOut> getCart() {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<DtoShoppingCartOut>> getCart() {
+		try {
+	        Integer userId = Integer.valueOf(
+	            SecurityContextHolder.getContext().getAuthentication().getName()
+	        );
+
+	        List<Object[]> rows = repo.getCartItems(userId);
+
+	        List<DtoShoppingCartOut> cart = new ArrayList<>();
+
+	        for (Object[] row : rows) {
+	            DtoShoppingCartOut dto = new DtoShoppingCartOut();
+	            dto.setCart_item_id((Integer) row[0]);
+	            dto.setQuantity((Integer) row[1]);
+	            dto.setProduct((String) row[2]);
+	            dto.setPrice(((Number) row[3]).floatValue());
+
+	            cart.add(dto);
+	        }
+
+	        return new ResponseEntity<>(cart, HttpStatus.OK);
+
+	    } catch (DataAccessException e) {
+	        throw new DBAccessException(e);
+	    }
 	}
 
 	@Override
 	public ResponseEntity<ApiResponse> deleteItemCart(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			
+	        ShoppingCart item = repo.findByIdCart(id);
+
+	        if (item == null) {
+	            throw new ApiException(HttpStatus.NOT_FOUND, "El id del artículo no existe en el carrito");
+	        }
+
+	        Integer userId = Integer.valueOf(
+	                SecurityContextHolder.getContext().getAuthentication().getName()
+	        );
+
+	        if (!item.getUser_id().equals(userId)) {
+	            throw new ApiException(HttpStatus.FORBIDDEN, "No puedes eliminar artículos de otro usuario");
+	        }
+
+	        repo.deleteItem(id);
+
+	        return new ResponseEntity<>(new ApiResponse("El artículo ha sido eliminado del carrito"), HttpStatus.OK);
+
+	    } catch (DataAccessException e) {
+	        throw new DBAccessException(e);
+	    }
 	}
 
 	@Override
-	public ResponseEntity<ApiResponse> deleteAllItemsCart(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<ApiResponse> deleteAllItemsCart() {
+		try {
+	        Integer userId = Integer.valueOf(
+	            SecurityContextHolder.getContext().getAuthentication().getName()
+	        );
+	        
+	        int count = repo.countItems(userId);
+	        if (count == 0) {
+	            return new ResponseEntity<>(new ApiResponse("El carrito ya está vacío"),HttpStatus.OK);
+	        }
+
+	        repo.deleteAllByUser(userId);
+
+	        return new ResponseEntity<>(new ApiResponse("Todos los artículos han sido eliminados del carrito"),HttpStatus.OK);
+
+	    } catch (DataAccessException e) {
+	        throw new DBAccessException(e);
+	    }
 	}
 
 }

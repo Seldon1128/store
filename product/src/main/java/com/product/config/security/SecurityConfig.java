@@ -47,6 +47,9 @@ public class SecurityConfig {
 			     
 			     //ShoppingCart
 			     .requestMatchers(HttpMethod.POST, "/cart-item").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.GET, "/cart-item").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.DELETE, "/cart-item/{id}").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.DELETE, "/cart-item").hasAuthority("ADMIN")
 				)
 		.cors(cors -> cors.configurationSource(corsConfig))
 		.httpBasic(Customizer.withDefaults())

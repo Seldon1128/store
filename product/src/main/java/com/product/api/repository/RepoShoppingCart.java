@@ -1,5 +1,7 @@
 package com.product.api.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +30,28 @@ public interface RepoShoppingCart extends JpaRepository<ShoppingCart, Integer>{
     @Transactional
     @Query(value = "UPDATE cart_item SET quantity = :qty WHERE cart_item_id = :id", nativeQuery = true)
     void updateQty(@Param("id") Integer cartItemId, @Param("qty") Integer qty);
+	
+	@Query(value = "SELECT c.cart_item_id, c.quantity, p.product, p.price " 
+		    + "FROM cart_item c " 
+		    + "INNER JOIN product p ON p.gtin = c.gtin " 
+		    + "WHERE c.user_id = :userId AND c.status = 1",nativeQuery = true)
+	List<Object[]> getCartItems(@Param("userId") Integer userId);
+	
+	@Query(value = "SELECT * FROM cart_item WHERE cart_item_id = :id LIMIT 1", nativeQuery = true)
+	ShoppingCart findByIdCart(@Param("id") Integer id);
+	
+	@Modifying(clearAutomatically = true, flushAutomatically = true)
+	@Transactional
+	@Query(value = "DELETE FROM cart_item WHERE cart_item_id = :id", nativeQuery = true)
+	void deleteItem(@Param("id") Integer id);
+	
+	@Modifying(clearAutomatically = true, flushAutomatically = true)
+	@Transactional
+	@Query(value = "DELETE FROM cart_item WHERE user_id = :userId", nativeQuery = true)
+	void deleteAllByUser(@Param("userId") Integer userId);
+
+	@Query(value = "SELECT COUNT(*) FROM cart_item WHERE user_id = :userId", nativeQuery = true)
+	int countItems(@Param("userId") Integer userId);
+
+
 }

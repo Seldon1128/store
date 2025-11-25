@@ -16,6 +16,8 @@ public class DtoShoppingCartOut {
 	
 	private Float price;
 	
+	private Integer quantity;
+	
 	public Integer getCart_item_id() {
 		return cart_item_id;
 	}
@@ -40,4 +42,11 @@ public class DtoShoppingCartOut {
 		this.price = price;
 	}
 
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
 }
