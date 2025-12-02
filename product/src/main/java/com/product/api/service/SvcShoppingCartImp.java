@@ -98,6 +98,8 @@ public class SvcShoppingCartImp implements SvcShoppingCart{
 	            dto.setQuantity((Integer) row[1]);
 	            dto.setProduct((String) row[2]);
 	            dto.setPrice(((Number) row[3]).floatValue());
+	            dto.setGtin((String) row[4]);
+	            dto.setStock((Integer) row[5]);
 
 	            cart.add(dto);
 	        }

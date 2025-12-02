@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.product.api.entity.Category;
 import com.product.api.entity.ShoppingCart;
 
 import jakarta.transaction.Transactional;
@@ -31,7 +30,7 @@ public interface RepoShoppingCart extends JpaRepository<ShoppingCart, Integer>{
     @Query(value = "UPDATE cart_item SET quantity = :qty WHERE cart_item_id = :id", nativeQuery = true)
     void updateQty(@Param("id") Integer cartItemId, @Param("qty") Integer qty);
 	
-	@Query(value = "SELECT c.cart_item_id, c.quantity, p.product, p.price " 
+	@Query(value = "SELECT c.cart_item_id, c.quantity, p.product, p.price, p.gtin, p.stock " 
 		    + "FROM cart_item c " 
 		    + "INNER JOIN product p ON p.gtin = c.gtin " 
 		    + "WHERE c.user_id = :userId AND c.status = 1",nativeQuery = true)

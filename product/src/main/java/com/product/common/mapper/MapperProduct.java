@@ -20,6 +20,7 @@ public class MapperProduct {
 					product.getGtin(),
 					product.getProduct(),
 					product.getPrice(),
+					product.getStock(),
 					product.getStatus()
 					));
 		}

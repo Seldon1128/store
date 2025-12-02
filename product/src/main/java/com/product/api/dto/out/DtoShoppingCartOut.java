@@ -18,6 +18,26 @@ public class DtoShoppingCartOut {
 	
 	private Integer quantity;
 	
+	private String gtin;
+	
+	private Integer stock;
+	
+	public String getGtin() {
+		return gtin;
+	}
+
+	public void setGtin(String gtin) {
+		this.gtin = gtin;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+	
 	public Integer getCart_item_id() {
 		return cart_item_id;
 	}

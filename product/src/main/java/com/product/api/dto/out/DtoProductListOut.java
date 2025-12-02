@@ -15,16 +15,20 @@ public class DtoProductListOut {
 
 	@JsonProperty("price")
 	private Float price;
+	
+	@JsonProperty("stock")
+	private Integer stock;
 
 	@JsonProperty("status")
 	private Integer status;
 
-	public DtoProductListOut(Integer product_id, String gtin, String product, Float price, Integer status) {
+	public DtoProductListOut(Integer product_id, String gtin, String product, Float price, Integer stock, Integer status) {
 		super();
 		this.product_id = product_id;
 		this.gtin = gtin;
 		this.product = product;
 		this.price = price;
+		this.stock = stock;
 		this.status = status;
 	}
 
@@ -58,6 +62,14 @@ public class DtoProductListOut {
 
 	public void setPrice(Float price) {
 		this.price = price;
+	}
+	
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
 	}
 
 	public Integer getStatus() {
