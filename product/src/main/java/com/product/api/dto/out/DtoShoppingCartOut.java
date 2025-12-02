@@ -14,6 +14,8 @@ public class DtoShoppingCartOut {
 	// talvez se tenga que hacer un join en RepoShoppingCart para obtener los datos
 	private String product;
 	
+	private String gtin;
+
 	private Float price;
 	
 	private Integer quantity;
@@ -32,6 +34,14 @@ public class DtoShoppingCartOut {
 
 	public void setProduct(String product) {
 		this.product = product;
+	}
+	
+	public String getGtin() {
+		return gtin;
+	}
+
+	public void setGtin(String gtin) {
+		this.gtin = gtin;
 	}
 
 	public Float getPrice() {
