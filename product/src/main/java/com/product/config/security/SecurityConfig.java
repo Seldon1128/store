@@ -44,12 +44,12 @@ public class SecurityConfig {
 			     .requestMatchers(HttpMethod.GET,    "/product/{id}/image").authenticated()
 			     .requestMatchers(HttpMethod.POST,   "/product/{id}/image").hasAuthority("ADMIN")
 			     .requestMatchers(HttpMethod.DELETE, "/product/{id}/image/{product_image_id}").hasAuthority("ADMIN")
-			     
-			     //ShoppingCart
-			     .requestMatchers(HttpMethod.POST, "/cart-item").hasAuthority("ADMIN")
-			     .requestMatchers(HttpMethod.GET, "/cart-item").hasAuthority("ADMIN")
-			     .requestMatchers(HttpMethod.DELETE, "/cart-item/{id}").hasAuthority("ADMIN")
-			     .requestMatchers(HttpMethod.DELETE, "/cart-item").hasAuthority("ADMIN")
+
+			  // ShoppingCart
+			     .requestMatchers(HttpMethod.POST, "/cart-item").hasAnyAuthority("CUSTOMER", "ADMIN")  
+			     .requestMatchers(HttpMethod.GET, "/cart-item").hasAnyAuthority("CUSTOMER", "ADMIN")  
+			     .requestMatchers(HttpMethod.DELETE, "/cart-item/{id}").hasAnyAuthority("CUSTOMER", "ADMIN")  
+			     .requestMatchers(HttpMethod.DELETE, "/cart-item").hasAnyAuthority("CUSTOMER", "ADMIN")  
 				)
 		.cors(cors -> cors.configurationSource(corsConfig))
 		.httpBasic(Customizer.withDefaults())

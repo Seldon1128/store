@@ -31,10 +31,10 @@ public interface RepoShoppingCart extends JpaRepository<ShoppingCart, Integer>{
     @Query(value = "UPDATE cart_item SET quantity = :qty WHERE cart_item_id = :id", nativeQuery = true)
     void updateQty(@Param("id") Integer cartItemId, @Param("qty") Integer qty);
 	
-	@Query(value = "SELECT c.cart_item_id, c.quantity, p.product, p.price " 
-		    + "FROM cart_item c " 
-		    + "INNER JOIN product p ON p.gtin = c.gtin " 
-		    + "WHERE c.user_id = :userId AND c.status = 1",nativeQuery = true)
+	@Query(value = "SELECT c.cart_item_id, c.quantity, p.product, p.gtin, p.price "
+            + "FROM cart_item c "
+            + "INNER JOIN product p ON p.gtin = c.gtin "
+            + "WHERE c.user_id = :userId AND c.status = 1", nativeQuery = true)
 	List<Object[]> getCartItems(@Param("userId") Integer userId);
 	
 	@Query(value = "SELECT * FROM cart_item WHERE cart_item_id = :id LIMIT 1", nativeQuery = true)

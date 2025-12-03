@@ -52,11 +52,6 @@ public class CtrlShoppingCart {
 	public ResponseEntity<ApiResponse> deleteAllItemsCart(){
 		return svc.deleteAllItemsCart();
 	}
-	
-	
-	
-	
-	
 
 
 }
