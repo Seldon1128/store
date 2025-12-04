@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.product.api.dto.in.DtoProductIn;
+import com.product.api.dto.in.UpdateStockRequest;
 import com.product.api.dto.out.DtoProductListOut;
 import com.product.api.dto.out.DtoProductOut;
 import com.product.api.entity.Product;
@@ -179,6 +181,31 @@ public class SvcProductImp implements SvcProduct{
 		}catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
+	}
+	
+	@Override
+	public ResponseEntity<ApiResponse> updateStock(String gtin, UpdateStockRequest request) {
+		try {
+			Optional<Product> productOpt = repo.findByGtin(gtin);
+			
+			if (productOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Producto no encontrado"));
+            }
+			
+			Product product = productOpt.get();
+			
+			product.setStock(request.getRemainingStock());
+			
+			repo.save(product);
+			
+			return ResponseEntity.ok(new ApiResponse("Stock actualizado correctamente"));
+
+		} catch
+		(DataAccessException e) {
+			throw new DBAccessException(e);
+		} catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Ocurrió un error al actualizar el stock"));
+        }
 	}
 
 }

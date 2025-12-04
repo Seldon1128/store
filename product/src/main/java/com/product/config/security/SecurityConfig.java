@@ -38,6 +38,7 @@ public class SecurityConfig {
 			     .requestMatchers(HttpMethod.GET,  "/product/{id}").authenticated()                 // detalle por id
 			     .requestMatchers(HttpMethod.POST, "/product").hasAuthority("ADMIN")
 			     .requestMatchers(HttpMethod.PUT,  "/product/{id}").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.PUT, "/product/{gtin}/update-stock").hasAnyAuthority("ADMIN","CUSTOMER")
 			     .requestMatchers(HttpMethod.PATCH,"/product/{id}/enable").hasAuthority("ADMIN")
 			     .requestMatchers(HttpMethod.PATCH,"/product/{id}/disable").hasAuthority("ADMIN")
 			     

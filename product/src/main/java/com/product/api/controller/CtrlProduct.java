@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.product.api.dto.in.DtoProductIn;
+import com.product.api.dto.in.UpdateStockRequest;
 import com.product.api.dto.out.DtoProductListOut;
 import com.product.api.dto.out.DtoProductOut;
 import com.product.api.service.SvcProduct;
@@ -66,5 +67,11 @@ public class CtrlProduct {
 	@Operation(summary = "Desactivar producto", description = "Producto no disponible")
 	public ResponseEntity<ApiResponse> disableProduct(@PathVariable Integer id) {
 		return svc.disableProduct(id);
+	}
+	
+	@PutMapping("/{gtin}/update-stock")
+	@Operation(summary = "Actualizar stock de producto", description = "Actualización Proucto")
+	public ResponseEntity<ApiResponse> updateStock(@PathVariable String gtin, @RequestBody UpdateStockRequest request) {
+	    return svc.updateStock(gtin, request);
 	}
 }
