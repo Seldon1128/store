@@ -47,10 +47,10 @@ public class SecurityConfig {
 			     .requestMatchers(HttpMethod.DELETE, "/product/{id}/image/{product_image_id}").hasAuthority("ADMIN")
 			     
 			     //ShoppingCart
-			     .requestMatchers(HttpMethod.POST, "/cart-item").hasAuthority("ADMIN")
-			     .requestMatchers(HttpMethod.GET, "/cart-item").hasAuthority("ADMIN")
-			     .requestMatchers(HttpMethod.DELETE, "/cart-item/{id}").hasAuthority("ADMIN")
-			     .requestMatchers(HttpMethod.DELETE, "/cart-item").hasAuthority("ADMIN")
+			     .requestMatchers(HttpMethod.POST, "/cart-item").hasAnyAuthority("ADMIN", "CUSTOMER")
+			     .requestMatchers(HttpMethod.GET, "/cart-item").hasAnyAuthority("ADMIN", "CUSTOMER")
+			     .requestMatchers(HttpMethod.DELETE, "/cart-item/{id}").hasAnyAuthority("ADMIN", "CUSTOMER")
+			     .requestMatchers(HttpMethod.DELETE, "/cart-item").hasAnyAuthority("ADMIN", "CUSTOMER")
 				)
 		.cors(cors -> cors.configurationSource(corsConfig))
 		.httpBasic(Customizer.withDefaults())
